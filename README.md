@@ -47,6 +47,7 @@ The goal is to learn and have fun while experimenting with robotics, programming
 
 ## Code Structure
 - `main.cpp`: The main file that initializes the robot and runs the loop.  
+- `TouchSensor.h` and `TouchSensor.cpp`: Contain the `TouchSensor` class with methods for detecting touch input.  
 - `Robot.h` and `Robot.cpp`: Contain the `Robot` class with methods for controlling the servos.  
 - `platformio.ini`: Configuration file for PlatformIO.  
 
