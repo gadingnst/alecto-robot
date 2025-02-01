@@ -1,15 +1,13 @@
-// Robot.cpp
 #include "Robot.h"
 
-Robot::Robot(int footLeftPin, int footRightPin, int legLeftPin, int legRightPin)
-  : footLeftPin(footLeftPin), footRightPin(footRightPin), legLeftPin(legLeftPin), legRightPin(legRightPin) {}
+Robot::Robot() {}
 
 void Robot::begin() {
   // Attach the servos to the defined GPIO pins
-  footLeft.attach(footLeftPin);
-  footRight.attach(footRightPin);
-  legLeft.attach(legLeftPin);
-  legRight.attach(legRightPin);
+  footLeft.attach(SERVO_FOOT_LEFT_PIN);
+  footRight.attach(SERVO_FOOT_RIGHT_PIN);
+  legLeft.attach(SERVO_LEG_LEFT_PIN);
+  legRight.attach(SERVO_LEG_RIGHT_PIN);
 
   // Initialize both feet and legs to the vertical position
   footLeft.write(90);

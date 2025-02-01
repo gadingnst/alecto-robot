@@ -1,7 +1,7 @@
 #include "TouchSensor.h"
 
-TouchSensor::TouchSensor(int pin) {
-  touchPin = pin;
+TouchSensor::TouchSensor() {
+  touchPin = TOUCH_PIN;
 }
 
 void TouchSensor::setup() {
