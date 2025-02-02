@@ -14,7 +14,25 @@ Mic::Mic(MicType micType) {
       .dma_buf_count = 2,
       .dma_buf_len = BUFFER_SIZE
     };
-    i2s_driver_install(I2S_PORT, &i2s_config, 0, NULL);
+    i2s_pin_config_t pin_config;
+    pin_config.bck_io_num = I2S_SCK;
+    pin_config.ws_io_num = I2S_WS;
+    pin_config.data_out_num = I2S_PIN_NO_CHANGE;
+    pin_config.data_in_num = I2S_SD;
+    pin_config.mck_io_num = I2S_PIN_NO_CHANGE;
+    
+    // Uninstall any existing driver before installing a new one
+    i2s_driver_uninstall(I2S_PORT);
+    
+    // Install the I2S driver
+    esp_err_t err = i2s_driver_install(I2S_PORT, &i2s_config, 0, NULL);
+    if (err != ESP_OK) {
+      Serial.println("Failed to install I2S driver");
+      return;
+    }
+    
+    // Set the I2S pins
+    i2s_set_pin(I2S_PORT, &pin_config);
     i2s_set_clk(I2S_PORT, SAMPLE_RATE, _bitsPerSample, I2S_CHANNEL_STEREO);
   } else if (micType == ADMP441 || micType == ICS43434) {
     _bitsPerSample = I2S_BITS_PER_SAMPLE_32BIT;
@@ -33,6 +51,7 @@ Mic::Mic(MicType micType) {
     pin_config.ws_io_num = I2S_WS;
     pin_config.data_out_num = I2S_PIN_NO_CHANGE;
     pin_config.data_in_num = I2S_SD;
+    pin_config.mck_io_num = I2S_PIN_NO_CHANGE;
     i2s_driver_install(I2S_PORT, &i2s_config, 0, NULL);
     i2s_set_pin(I2S_PORT, &pin_config);
     i2s_set_clk(I2S_PORT, SAMPLE_RATE, _bitsPerSample, I2S_CHANNEL_STEREO);

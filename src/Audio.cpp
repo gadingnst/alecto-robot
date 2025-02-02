@@ -1,10 +1,16 @@
 #include "Audio.h"
 #include "SDCard.h"
 
+SDCard sdCard;
+
 Audio::Audio(MicType micType) {
   wavData = new char*[wavDataSize/dividedWavDataSize];
   for (int i = 0; i < wavDataSize/dividedWavDataSize; ++i) wavData[i] = new char[dividedWavDataSize];
   mic = new Mic(micType);
+  if (!sdCard.setup()) {
+    Serial.println("SD Card initialization failed!");
+    return;
+  }
 }
 
 Audio::~Audio() {
@@ -62,14 +68,10 @@ void Audio::CreateWavHeader(byte* header, int waveDataSize){
 }
 
 void Audio::Record() {
+  sdCard.begin();
   Serial.println("Initializing recording...");
   CreateWavHeader(paddedHeader, wavDataSize);
   int bitBitPerSample = mic->getBitsPerSample();
-  SDCard sdCard;
-  if (!sdCard.begin()) {
-    Serial.println("SD Card initialization failed!");
-    return;
-  }
 
   File file = sdCard.openWavFile("/recording.wav");
   if (!file) {
@@ -79,7 +81,7 @@ void Audio::Record() {
 
   file.write(paddedHeader, headerSize);
   Serial.println("Recording in progress...");
-  Serial.println("bitBitPerSample: " + String(bitBitPerSample));
+  // Serial.println("bitBitPerSample: " + String(bitBitPerSample));
 
   if (bitBitPerSample == 16) {
     for (int j = 0; j < wavDataSize/dividedWavDataSize; ++j) {
@@ -103,5 +105,6 @@ void Audio::Record() {
 
   Serial.println("Recording finished. Saving to SD card...");
   sdCard.finalizeWavFile(file, wavDataSize);
+  sdCard.end();
   Serial.println("Recording saved to SD card.");
 }

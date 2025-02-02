@@ -18,7 +18,9 @@ private:
 
 public:
   SDCard();
+  bool setup();
   bool begin();
+  void end();
   bool writeFile(const char* path, const char* message);
   String readFile(const char* path);
   bool appendFile(const char* path, const char* message);
