@@ -1,29 +1,28 @@
 #include <Arduino.h>
 #include "TouchSensor.h"
-#include "Robot.h"
+#include "Audio.h"
+#include "SDCard.h"
 
-// pins according to ESP32-S3 pinout
-const int footLeftPin = 17;
-const int footRightPin = 21;
-const int legLeftPin = 18;
-const int legRightPin = 41;
+TouchSensor touchSensor;
+SDCard sdCard;
 
-// pins according to ESP32-S3 pinout
-TouchSensor touchSensor(4);
-Robot robot(footLeftPin, footRightPin, legLeftPin, legRightPin);
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Configuring ESP32-S3...");
   touchSensor.setup();
-  robot.begin();
+  
+  if (!sdCard.begin()) {
+    Serial.println("SD Card initialization failed!");
+    return;
+  }
 }
 
 void loop() {
   if (touchSensor.isTouched()) {
-    Serial.println("Touch sensor is touched!");
-    Serial.println("Walking forward...");
-    robot.walkForward();
+    Serial.println("\r\nRecord start!\r\n");
+    Audio* audio = new Audio(ICS43434);
+    audio->Record();
+    Serial.println("Recording Completed.");
+    delete audio;
   }
-  delay(1000);
 }
