@@ -3,10 +3,11 @@
 
 #include <Arduino.h>
 #include "Mic.h"
-
+#include "SDCard.h"
 // 16bit, monoral, 16000Hz,  linear PCM
 class Audio {
   Mic* mic;
+  SDCard* sd;
   static const int headerSize = 44;
   static const int i2sBufferSize = 12000;
   char i2sBuffer[i2sBufferSize];
@@ -18,7 +19,7 @@ public:
   char** wavData;                                         // It's divided. Because large continuous memory area can't be allocated in esp32.
   byte paddedHeader[headerSize + 4] = {0};                // The size must be multiple of 3 for Base64 encoding. Additional byte size must be even because wave data is 16bit.
 
-  Audio(MicType micType);
+  Audio(SDCard* sdCard, MicType micType);
   ~Audio();
   void Record();
 };
