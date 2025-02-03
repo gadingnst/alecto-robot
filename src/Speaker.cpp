@@ -1,7 +1,5 @@
 #include "Speaker.h"
 
-// ... existing code ...
-
 void Speaker::setup(SDCard* sdCard) {
   sd = sdCard;
 
@@ -30,12 +28,12 @@ void Speaker::setup(SDCard* sdCard) {
   };
 
   // Install and start I2S driver
-  i2s_driver_install(I2S_NUM_0, &i2s_config, 0, NULL);
-  i2s_set_pin(I2S_NUM_0, &pin_config);
-  i2s_start(I2S_NUM_0);
+  i2s_driver_install(SPEAKER_I2S_PORT, &i2s_config, 0, NULL);
+  i2s_set_pin(SPEAKER_I2S_PORT, &pin_config);
+  i2s_start(SPEAKER_I2S_PORT);
 
   // Setup audio output
-  out = new AudioOutputI2S();
+  out = new AudioOutputI2S(SPEAKER_I2S_PORT);  // Specify I2S port
   out->SetPinout(BCLK_PIN, LRCLK_PIN, DIN_PIN);
   out->SetRate(sampleRate);
   out->SetBitsPerSample(bitsPerSample);
@@ -47,7 +45,7 @@ void Speaker::end() {
     delete out;
     out = nullptr;
   }
-  i2s_driver_uninstall(I2S_NUM_0);
+  i2s_driver_uninstall(SPEAKER_I2S_PORT);
 }
 
 bool Speaker::playMP3File(const char* filename) {

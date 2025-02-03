@@ -11,9 +11,9 @@ Speaker speaker;
 void setup() {
   Serial.begin(115200);
   sdCard = new SDCard();
-  audio = new Audio(sdCard, ICS43434);
-  touchSensor.setup();
   sdCard->setup();
+  touchSensor.setup();
+  audio = new Audio(sdCard, ICS43434);
   speaker.setup(sdCard);
 }
 
@@ -24,7 +24,10 @@ void loop() {
     // Serial.println("Recording Completed.");
     // delete audio;
 
-    speaker.playMP3File("/short-audio-10.mp3");
-    Serial.println("Audio playback completed");
+    // speaker.playMP3File("/short-audio-10.mp3");
+    // Serial.println("Audio playback completed");
+
+    Serial.println("Hello ESP-32");
   }
+  delay(1000);
 }

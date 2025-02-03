@@ -12,9 +12,12 @@
 #define LRCLK_PIN 18  // I2S Word Select
 #define DIN_PIN 40    // I2S Data
 
+#define SPEAKER_I2S_PORT I2S_NUM_1
+
 // MP3 decoding buffer sizes
 #define MP3_BUFFER_SIZE 1024
 #define PCM_BUFFER_SIZE 1152
+
 
 class Speaker {
 public:
