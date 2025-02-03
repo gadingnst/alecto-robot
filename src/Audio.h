@@ -19,9 +19,9 @@ public:
   char** wavData;                                         // It's divided. Because large continuous memory area can't be allocated in esp32.
   byte paddedHeader[headerSize + 4] = {0};                // The size must be multiple of 3 for Base64 encoding. Additional byte size must be even because wave data is 16bit.
 
-  Audio(SDCard* sdCard, MicType micType);
+  Audio(SDCard* sdCard, MicType micType = ICS43434);
   ~Audio();
-  void Record();
+  void Record(const char* fileName = "/recording.wav");
 };
 
 #endif // _AUDIO_H

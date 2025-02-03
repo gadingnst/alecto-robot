@@ -61,12 +61,12 @@ void Audio::CreateWavHeader(byte* header, int waveDataSize){
   header[43] = (byte)((waveDataSize >> 24) & 0xFF);
 }
 
-void Audio::Record() {
+void Audio::Record(const char* fileName) {
   Serial.println("Initializing recording...");
   CreateWavHeader(paddedHeader, wavDataSize);
   int bitBitPerSample = mic->getBitsPerSample();
 
-  File file = sd->openWavFile("/recording.wav");
+  File file = sd->openWavFile(fileName);
   if (!file) {
     Serial.println("Failed to open file for writing");
     return;
@@ -98,6 +98,5 @@ void Audio::Record() {
 
   Serial.println("Recording finished. Saving to SD card...");
   sd->finalizeWavFile(file, wavDataSize);
-  sd->end();
   Serial.println("Recording saved to SD card.");
 }

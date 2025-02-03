@@ -1,32 +1,27 @@
 #include <Arduino.h>
 #include "TouchSensor.h"
 #include "Audio.h"
-#include "Speaker.h"
 
 TouchSensor touchSensor;
 Audio* audio;
 SDCard *sdCard;
-Speaker speaker;
 
 void setup() {
   Serial.begin(115200);
   sdCard = new SDCard();
   sdCard->setup();
   touchSensor.setup();
-  audio = new Audio(sdCard, ICS43434);
-  speaker.setup(sdCard);
+  audio = new Audio(sdCard);
 }
 
 void loop() {
   if (touchSensor.isTouched()) {
+    // sdCard->begin();
     // Serial.println("\r\nRecord start!\r\n");
-    // audio->Record();
-    // Serial.println("Recording Completed.");
+    // audio->Record("/recording-4.wav");
     // delete audio;
-
-    // speaker.playMP3File("/short-audio-10.mp3");
-    // Serial.println("Audio playback completed");
-
+    // sdCard->end();
+    // Serial.println("Recording Completed.");
     Serial.println("Hello ESP-32");
   }
   delay(1000);
