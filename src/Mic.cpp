@@ -56,6 +56,7 @@ Mic::Mic(MicType micType) {
     i2s_set_pin(I2S_PORT, &pin_config);
     i2s_set_clk(I2S_PORT, SAMPLE_RATE, _bitsPerSample, I2S_CHANNEL_STEREO);
   }
+  Serial.println("Mic initialized");
 }
 
 int Mic::read(char* data, int numData) {

@@ -1,12 +1,11 @@
 #include "TouchSensor.h"
 
-TouchSensor::TouchSensor() {
-  touchPin = TOUCH_PIN;
-}
+TouchSensor::TouchSensor() {}
 
-void TouchSensor::setup() {
+void TouchSensor::setup(int pin) {
+  touchPin = pin;
   pinMode(touchPin, INPUT);
-  Serial.println("Touch Sensor initialized!");
+  Serial.println("Touch Sensor initialized");
 }
 
 bool TouchSensor::isTouched() {

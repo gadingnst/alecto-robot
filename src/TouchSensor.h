@@ -3,12 +3,12 @@
 
 #include <Arduino.h>
 
-#define TOUCH_PIN 5
+#define DEFAULT_TOUCH_PIN 5
 
 class TouchSensor {
 public:
   TouchSensor();
-  void setup();
+  void setup(int pin = DEFAULT_TOUCH_PIN);
   bool isTouched();
 
 private:

@@ -8,6 +8,7 @@ void AudioPlayer::setup(SDCard* sdCard) {
   sd = sdCard;
   audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
   audio.setVolume(18);
+  Serial.println("AudioPlayer initialized");
 }
 
 void AudioPlayer::play(const char* path) {

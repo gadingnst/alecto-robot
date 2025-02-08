@@ -11,7 +11,7 @@ class AudioRecorder {
   static const int headerSize = 44;
   static const int i2sBufferSize = 12000;
   char i2sBuffer[i2sBufferSize];
-  void CreateWavHeader(byte* header, int waveDataSize);
+  void createWavHeader(byte* header, int waveDataSize);
   File file;
   unsigned long startTime;
   unsigned long maxRecordTime;
@@ -26,14 +26,15 @@ public:
   byte paddedHeader[headerSize + 4] = {0};
   bool isRecording = false;
 
-  AudioRecorder(SDCard* sdCard, MicType micType = ICS43434);
+  AudioRecorder();
   ~AudioRecorder();
-  void StartRecording(const char* fileName = "/recording.wav", unsigned long maxDuration = 30000);
-  void StopRecording();
-  void ProcessRecording();
-  void Reset();
-  void Record(const char* fileName, unsigned long durationMs = 30000);
-  void HandleRecording();
+  void setup(SDCard* sdCard, MicType micType = ICS43434);
+  void startRecording(const char* fileName, unsigned long maxDuration);
+  void stopRecording();
+  void processRecording();
+  void reset();
+  void record(const char* fileName = "/recording.wav", unsigned long durationMs = 30000, int delayMs = 500);
+  void handleRecording();
 };
 
 #endif // _AUDIO_RECORDER_H
