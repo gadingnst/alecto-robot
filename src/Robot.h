@@ -11,7 +11,7 @@
 class Robot {
 public:
   Robot();
-  void begin();
+  void setup();
   void walkForward();
   void moonwalk();
 

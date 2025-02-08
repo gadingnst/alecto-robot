@@ -2,7 +2,7 @@
 
 Robot::Robot() {}
 
-void Robot::begin() {
+void Robot::setup() {
   // Attach the servos to the defined GPIO pins
   footLeft.attach(SERVO_FOOT_LEFT_PIN);
   footRight.attach(SERVO_FOOT_RIGHT_PIN);
