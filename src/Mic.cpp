@@ -1,7 +1,9 @@
 #include "Mic.h"
 
 Mic::Mic(MicType micType) {
+  if (_isAlreadyInitialized) return;
   _micType = micType;
+  _isAlreadyInitialized = true;
   if (micType == M5GO || micType == M5STACKFIRE) {
     _bitsPerSample = I2S_BITS_PER_SAMPLE_16BIT;
     i2s_config_t i2s_config = {

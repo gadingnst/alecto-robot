@@ -4,7 +4,7 @@
 
 TouchSensor touchSensor;
 Audio* audio;
-SDCard *sdCard;
+SDCard* sdCard;
 
 void setup() {
   Serial.begin(115200);
@@ -12,17 +12,23 @@ void setup() {
   sdCard->setup();
   touchSensor.setup();
   audio = new Audio(sdCard);
+  Serial.println("Setup complete.");
 }
 
 void loop() {
   if (touchSensor.isTouched()) {
-    // sdCard->begin();
-    // Serial.println("\r\nRecord start!\r\n");
-    // audio->Record("/recording-4.wav");
-    // delete audio;
-    // sdCard->end();
-    // Serial.println("Recording Completed.");
-    Serial.println("Hello ESP-32");
+    if (!audio->isRecording) {
+      Serial.println("\r\nRecording started!\r\n");
+      audio->StartRecording("/recording-8.wav", 10000);
+    } else {
+      audio->StopRecording();
+      Serial.println("Recording stopped.");
+      audio->Reset();
+    }
+    delay(500);
   }
-  delay(1000);
+
+  if (audio->isRecording) {
+    audio->ProcessRecording();
+  }
 }

@@ -25,6 +25,7 @@ class Mic {
 private:
   i2s_bits_per_sample_t _bitsPerSample;
   MicType _micType;
+  bool _isAlreadyInitialized = false;
 
 public:
   Mic(MicType micType);
