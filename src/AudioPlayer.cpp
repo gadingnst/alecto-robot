@@ -13,7 +13,7 @@ void AudioPlayer::setup(SDCard* sdCard) {
 void AudioPlayer::play(const char* path) {
   sd->begin();
   if (!sd->exists(path)) {
-    Serial.println("File tidak ditemukan di SD Card!");
+    Serial.println("File not found on SD Card!");
     return;
   }
 

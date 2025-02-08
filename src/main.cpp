@@ -18,7 +18,6 @@ void setup() {
 void loop() {
   if (touchSensor.isTouched()) {
     recorder->Record("/recording-10.wav");
-    delay(500);  // Debounce delay
   }
   recorder->HandleRecording();
 }

@@ -14,6 +14,7 @@ void Robot::setup() {
   footRight.write(90);
   legLeft.write(90);
   legRight.write(90);
+  Serial.println("Robot initialized successfully");
 }
 
 void Robot::moveSmooth(Servo &servo, int startAngle, int endAngle, int delayMs) {

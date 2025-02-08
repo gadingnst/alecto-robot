@@ -91,6 +91,7 @@ void AudioRecorder::Record(const char* fileName, unsigned long durationMs) {
     Serial.println("Recording stopped.");
     Reset();
   }
+  delay(500);
 }
 
 void AudioRecorder::HandleRecording() {
