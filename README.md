@@ -61,10 +61,6 @@ The goal is to learn and have fun while experimenting with robotics, programming
 - [x] **Use Touch Sensor for Recording State (Temporary)**: Utilize the touch sensor to start/stop recording.
 - [x] **Audio Amplifier (MAX98357) and Speaker Integration**: Enable audio playback.  
 
-### Known Issues
-- [ ] **Audio Recording**: The audio recording is not working as expected, the audio is recorded, it can be recognied by STT, but the volume is too low.
-- [ ] **Audio Playback**: The audio playback is not working as expected, the audio is played, but distorted.
-
 ### Tasks to Work On
 - [ ] **LLM API Integration with Speech-to-Speech I/O**: Process both input and output as spoken language.  
 - [ ] **Implement Audio Playback Flow**: Manage the processing and playback of speech output.  
@@ -72,7 +68,11 @@ The goal is to learn and have fun while experimenting with robotics, programming
 - [ ] **Battery Integration**: Implement a rechargeable battery system for wireless operation.
 - [ ] **Improve Walking Algorithm**: Optimize the walking motion for smoother and more natural movement.  
 - [ ] **Add More Dance Moves**: Implement additional dance routines (e.g., spin, shuffle).  
-- [ ] **Add LED Feedback**: Include LEDs to indicate robot status (e.g., walking, dancing, idle).  
+- [ ] **Add LED Feedback**: Include LEDs to indicate robot status (e.g., walking, dancing, idle).
+
+### Known Issues
+- [ ] **Audio Recording**: The audio recording is working as expected and can be recognized by STT service, but the volume is too low. (Low Prior)
+- [ ] **Audio Playback**: The audio playback is not working as expected, the audio is played, but distorted. (High Prior)
 
 ---
 
