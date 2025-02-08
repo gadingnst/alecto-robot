@@ -1,6 +1,6 @@
-#include "Audio.h"
+#include "AudioRecorder.h"
 
-Audio::Audio(SDCard* sdCard, MicType micType) {
+AudioRecorder::AudioRecorder(SDCard* sdCard, MicType micType) {
   sd = sdCard;
   mic = new Mic(micType);
   wavData = new char*[wavDataSize / dividedWavDataSize];
@@ -8,7 +8,7 @@ Audio::Audio(SDCard* sdCard, MicType micType) {
     wavData[i] = new char[dividedWavDataSize];
 }
 
-void Audio::StartRecording(const char* fileName, unsigned long maxDuration) {
+void AudioRecorder::StartRecording(const char* fileName, unsigned long maxDuration) {
   if (isRecording) return;
 
   Serial.println("Recording started...");
@@ -26,7 +26,22 @@ void Audio::StartRecording(const char* fileName, unsigned long maxDuration) {
   isRecording = true;
 }
 
-void Audio::Reset() {
+void AudioRecorder::StopRecording() {
+  if (!isRecording) return;
+
+  Serial.println("Stopping recording...");
+  isRecording = false;
+  
+  CreateWavHeader(paddedHeader, recordedDataSize);
+  file.seek(0);
+  file.write(paddedHeader, headerSize);
+  
+  file.close();
+  sd->end();
+  Serial.println("Recording saved to SD card.");
+}
+
+void AudioRecorder::Reset() {
   if (isRecording) {
     StopRecording();
   }
@@ -35,7 +50,7 @@ void Audio::Reset() {
   Serial.println("Audio already reset.");
 }
 
-void Audio::ProcessRecording() {
+void AudioRecorder::ProcessRecording() {
   if (!isRecording) return;
 
   int bitPerSample = mic->getBitsPerSample();
@@ -67,29 +82,31 @@ void Audio::ProcessRecording() {
   delay(50);  // Tambahkan delay agar data dikumpulkan lebih banyak
 }
 
-void Audio::StopRecording() {
-  if (!isRecording) return;
-
-  Serial.println("Stopping recording...");
-  isRecording = false;
-  
-  CreateWavHeader(paddedHeader, recordedDataSize);
-  file.seek(0);
-  file.write(paddedHeader, headerSize);
-  
-  file.close();
-  sd->end();
-  Serial.println("Recording saved to SD card.");
+void AudioRecorder::Record(const char* fileName, unsigned long durationMs) {
+  if (!isRecording) {
+    Serial.println("\r\nRecording started!\r\n");
+    StartRecording(fileName, durationMs);
+  } else {
+    StopRecording();
+    Serial.println("Recording stopped.");
+    Reset();
+  }
 }
 
-Audio::~Audio() {
+void AudioRecorder::HandleRecording() {
+  if (isRecording) {
+    ProcessRecording();
+  }
+}
+
+AudioRecorder::~AudioRecorder() {
   for (int i = 0; i < wavDataSize / dividedWavDataSize; ++i) 
     delete[] wavData[i];
   delete[] wavData;
   delete mic;
 }
 
-void Audio::CreateWavHeader(byte* header, int waveDataSize){
+void AudioRecorder::CreateWavHeader(byte* header, int waveDataSize){
   header[0] = 'R';
   header[1] = 'I';
   header[2] = 'F';

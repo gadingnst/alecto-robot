@@ -1,11 +1,11 @@
-#ifndef _AUDIO_H
-#define _AUDIO_H
+#ifndef _AUDIO_RECORDER_H
+#define _AUDIO_RECORDER_H
 
 #include <Arduino.h>
 #include "Mic.h"
 #include "SDCard.h"
 
-class Audio {
+class AudioRecorder {
   Mic* mic;
   SDCard* sd;
   static const int headerSize = 44;
@@ -26,12 +26,14 @@ public:
   byte paddedHeader[headerSize + 4] = {0};
   bool isRecording = false;
 
-  Audio(SDCard* sdCard, MicType micType = ICS43434);
-  ~Audio();
+  AudioRecorder(SDCard* sdCard, MicType micType = ICS43434);
+  ~AudioRecorder();
   void StartRecording(const char* fileName = "/recording.wav", unsigned long maxDuration = 30000);
   void StopRecording();
   void ProcessRecording();
   void Reset();
+  void Record(const char* fileName, unsigned long durationMs = 30000);
+  void HandleRecording();
 };
 
-#endif // _AUDIO_H
+#endif // _AUDIO_RECORDER_H

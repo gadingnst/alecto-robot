@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include "TouchSensor.h"
-#include "Audio.h"
+#include "AudioRecorder.h"
 
 TouchSensor touchSensor;
-Audio* audio;
+AudioRecorder* recorder;
 SDCard* sdCard;
 
 void setup() {
@@ -11,24 +11,14 @@ void setup() {
   sdCard = new SDCard();
   sdCard->setup();
   touchSensor.setup();
-  audio = new Audio(sdCard);
+  recorder = new AudioRecorder(sdCard);
   Serial.println("Setup complete.");
 }
 
 void loop() {
   if (touchSensor.isTouched()) {
-    if (!audio->isRecording) {
-      Serial.println("\r\nRecording started!\r\n");
-      audio->StartRecording("/recording-8.wav", 10000);
-    } else {
-      audio->StopRecording();
-      Serial.println("Recording stopped.");
-      audio->Reset();
-    }
-    delay(500);
+    recorder->Record("/recording-10.wav");
+    delay(500);  // Debounce delay
   }
-
-  if (audio->isRecording) {
-    audio->ProcessRecording();
-  }
+  recorder->HandleRecording();
 }
