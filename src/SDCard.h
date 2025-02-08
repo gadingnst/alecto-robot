@@ -29,6 +29,7 @@ public:
   bool isInitialized() { return _isInitialized; }
   File openWavFile(const char* path);
   bool finalizeWavFile(File& file, uint32_t dataSize);
+  fs::FS& getSDMMC() { return SD_MMC; }
 };
 
 #endif

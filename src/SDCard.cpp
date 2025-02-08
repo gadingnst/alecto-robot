@@ -22,6 +22,7 @@ bool SDCard::setup() {
   }
   
   _isInitialized = true;
+  Serial.println("SD Card initialized successfully");
   return true;
 }
 
