@@ -55,13 +55,13 @@ The goal is to learn and have fun while experimenting with robotics, programming
 
 ### Integrated Components
 - [x] **Servo Motors**: Integrated and functional for walking and dancing.  
-- [x] **Touch Sensor**: Integrated and functional for detecting touch input.  
+- [x] **Touch Sensor**: Integrated and functional for detecting touch input.
+- [x] **SD Card Module Integration**: Enable audio data storage for voice recording.  
+- [x] **Microphone Module (INMP441) Integration**: Implement voice recording functionality.  
+- [x] **Use Touch Sensor for Recording State (Temporary)**: Utilize the touch sensor to start/stop recording.  
 
 ### Tasks to Work On
-- [ ] **SD Card Module Integration**: Enable audio data storage for voice recording.  
-- [ ] **Microphone Module (INMP441) Integration**: Implement voice recording functionality.  
 - [ ] **Audio Amplifier (MAX98357) and Speaker Integration**: Enable audio playback.  
-- [ ] **Use Touch Sensor for Recording State (Temporary)**: Utilize the touch sensor to start/stop recording.  
 - [ ] **LLM API Integration with Speech-to-Speech I/O**: Process both input and output as spoken language.  
 - [ ] **Implement Audio Playback Flow**: Manage the processing and playback of speech output.  
 - [ ] **Wake Word Integration for Recording State**: Implement wake word detection to trigger voice recording.
