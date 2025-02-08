@@ -58,10 +58,14 @@ The goal is to learn and have fun while experimenting with robotics, programming
 - [x] **Touch Sensor**: Integrated and functional for detecting touch input.
 - [x] **SD Card Module Integration**: Enable audio data storage for voice recording.  
 - [x] **Microphone Module (INMP441) Integration**: Implement voice recording functionality.  
-- [x] **Use Touch Sensor for Recording State (Temporary)**: Utilize the touch sensor to start/stop recording.  
+- [x] **Use Touch Sensor for Recording State (Temporary)**: Utilize the touch sensor to start/stop recording.
+- [x] **Audio Amplifier (MAX98357) and Speaker Integration**: Enable audio playback.  
+
+### Known Issues
+- [ ] **Audio Recording**: The audio recording is not working as expected, the audio is recorded, it can be recognied by STT, but the volume is too low.
+- [ ] **Audio Playback**: The audio playback is not working as expected, the audio is played, but distorted.
 
 ### Tasks to Work On
-- [ ] **Audio Amplifier (MAX98357) and Speaker Integration**: Enable audio playback.  
 - [ ] **LLM API Integration with Speech-to-Speech I/O**: Process both input and output as spoken language.  
 - [ ] **Implement Audio Playback Flow**: Manage the processing and playback of speech output.  
 - [ ] **Wake Word Integration for Recording State**: Implement wake word detection to trigger voice recording.
