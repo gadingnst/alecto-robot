@@ -3,8 +3,13 @@
 
 #include <ESP32Servo.h>
 
-#define SERVO_FOOT_LEFT_PIN  17  // Adjust these pin numbers
-#define SERVO_FOOT_RIGHT_PIN 21  // according to your setup
+/**
+ * All servos are connected to the 5V and GND pins
+ * VIN -> 5V -> red wire
+ * GND -> GND -> orange wire
+ */
+#define SERVO_FOOT_LEFT_PIN  17
+#define SERVO_FOOT_RIGHT_PIN 21
 #define SERVO_LEG_LEFT_PIN   18
 #define SERVO_LEG_RIGHT_PIN  41
 

@@ -72,7 +72,8 @@ The goal is to learn and have fun while experimenting with robotics, programming
 
 ### Known Issues
 - [ ] **Audio Recording**: The audio recording is working as expected and can be recognized by STT service, but the volume is too low. (Low Prior)
-- [ ] **Audio Playback**: The audio playback is not working as expected, the audio is played, but distorted. (High Prior)
+- [x] **Audio Playback**: The audio playback is not working as expected, the audio is played, but distorted. (✅)
+- [x] **Audio Playback**: The audio playback is working as expected, but the volume is too low. (Low Prior)
 
 ---
 

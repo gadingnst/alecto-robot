@@ -16,11 +16,9 @@ void setup() {
   recorder.setup(sdCard);
   player.setup(sdCard);
   Serial.println("Setup complete.");
+  player.play("/elevenlabs.mp3");
 }
 
 void loop() {
-  if (touchSensor.isTouched()) {
-    recorder.record("/recording-10.wav");
-  }
-  recorder.handleRecording();
-}
+  player.loop();
+} 

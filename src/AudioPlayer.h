@@ -5,9 +5,15 @@
 #ifndef AUDIOPLAYER_H
 #define AUDIOPLAYER_H
 
-#define I2S_BCLK 17 // white wire
-#define I2S_LRC 18 // grey wire
-#define I2S_DOUT 16 // black wire
+/**
+ * VIN -> 5V -> red wire
+ * GND -> GND -> orange wire
+ * SD -> Floating -> brown wire 
+ * GAIN -> GND -> green wire
+ */
+#define I2S_BCLK 14  // white wire - Bit Clock
+#define I2S_LRC  15  // grey wire  - Word Select
+#define I2S_DOUT 13  // black wire - Data Out
 
 class AudioPlayer {
 public:
