@@ -5,7 +5,7 @@ AudioPlayer::AudioPlayer() {}
 void AudioPlayer::setup(SDCard* sdCard) {
   sd = sdCard;
   audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-  audio.setVolume(98);
+  audio.setVolume(75);
   audio.setTone(0,0,0);
   audio.forceMono(true);
   Serial.println("AudioPlayer initialized");
