@@ -6,12 +6,13 @@
 /**
  * All servos are connected to the 5V and GND pins
  * VIN -> 5V -> red wire
- * GND -> GND -> orange wire
+ * GND -> GND -> brown wire
+ * PWM -> GPIO -> orange wire
  */
-#define SERVO_FOOT_LEFT_PIN  17
-#define SERVO_FOOT_RIGHT_PIN 21
-#define SERVO_LEG_LEFT_PIN   18
-#define SERVO_LEG_RIGHT_PIN  41
+#define SERVO_FOOT_LEFT_PIN  6
+#define SERVO_FOOT_RIGHT_PIN 7
+#define SERVO_LEG_LEFT_PIN   17
+#define SERVO_LEG_RIGHT_PIN  16
 
 class Robot {
 public:

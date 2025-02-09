@@ -2,20 +2,20 @@
 #include "TouchSensor.h"
 #include "AudioRecorder.h"
 #include "AudioPlayer.h"
-// #include "Display.h"
+#include "Robot.h"
 
 SDCard* sdCard;
 TouchSensor touchSensor;
 AudioRecorder recorder;
 AudioPlayer player;
-// Display display;
+Robot robot;
 
 void setup() {
   Serial.begin(115200);
   sdCard = new SDCard();
   sdCard->setup();
-//   display.setup();
   touchSensor.setup();
+  robot.setup();
   recorder.setup(sdCard);
   player.setup(sdCard);
   Serial.println("Setup complete.");
@@ -23,10 +23,9 @@ void setup() {
 }
 
 void loop() {
-//   display.idle();
-  if (touchSensor.isTouched()) {
-    Serial.println("Touched");
-    delay(1000);
-  }
   player.loop();
-} 
+  if (touchSensor.isTouched()) {
+    robot.walkForward();
+  }
+  recorder.handleRecording();
+}

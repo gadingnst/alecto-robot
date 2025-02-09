@@ -7,9 +7,10 @@
 Display::Display() : u8g2(U8G2_R0, OLED_SCL, OLED_SDA) {}
 
 void Display::setup() {
+  u8g2.setBusClock(100000);
   u8g2.begin();
   u8g2.setFont(u8g2_font_ncenB08_tr);
-  randomSeed(esp_random());
+  // randomSeed(esp_random());
   Serial.println("Display initialized");
 }
 
