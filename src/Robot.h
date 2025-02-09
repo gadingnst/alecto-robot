@@ -19,7 +19,11 @@ public:
   Robot();
   void setup();
   void walkForward();
+  void walkBackward();
   void moonwalk();
+  void turnLeft();
+  void turnRight();
+  void stop();
 
 private:
   Servo footLeft;

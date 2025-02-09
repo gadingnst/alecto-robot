@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#define DEFAULT_TOUCH_PIN 5
+#define DEFAULT_TOUCH_PIN 1
 
 class TouchSensor {
 public:

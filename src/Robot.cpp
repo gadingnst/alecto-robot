@@ -51,6 +51,45 @@ void Robot::walkForward() {
   delay(100);
 }
 
+void Robot::walkBackward() {
+  moveSmooth(footLeft, 90, 60, 5);    // Lift left foot
+  moveSmooth(legLeft, 90, 30, 5);     // Move left leg forward
+
+  moveSmooth(footLeft, 60, 90, 5);    // Lower left foot
+  moveSmooth(legLeft, 30, 90, 5);     // Return left leg to initial position
+
+  delay(100);
+
+  moveSmooth(footRight, 90, 120, 5);  // Lift right foot
+  moveSmooth(legRight, 90, 150, 5);   // Move right leg forward
+
+  moveSmooth(footRight, 120, 90, 5);  // Lower right foot
+  moveSmooth(legRight, 150, 90, 5);   // Return right leg to initial position
+
+  delay(100);
+}
+
+void Robot::turnLeft() {
+  moveSmooth(legLeft, 90, 30, 5);
+  moveSmooth(legRight, 90, 30, 5);
+  moveSmooth(legLeft, 30, 90, 5);
+  moveSmooth(legRight, 30, 90, 5);
+}
+
+void Robot::turnRight() {
+  moveSmooth(legRight, 90, 150, 5);
+  moveSmooth(legLeft, 90, 150, 5);
+  moveSmooth(legRight, 150, 90, 5);
+  moveSmooth(legLeft, 150, 90, 5);
+}
+
+void Robot::stop() {
+  footLeft.write(90);
+  footRight.write(90);
+  legLeft.write(90);
+  legRight.write(90);
+}
+
 void Robot::moonwalk() {
   moveSmooth(footRight, 90, 60, 5);   // Move right foot backward
   moveSmooth(footLeft, 90, 120, 5);   // Move left foot forward
