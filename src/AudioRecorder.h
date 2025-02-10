@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "Mic.h"
 #include "SDCard.h"
+#include <string>
 
 class AudioRecorder {
   Mic* mic;
@@ -15,6 +16,8 @@ class AudioRecorder {
   File file;
   unsigned long startTime;
   unsigned long maxRecordTime;
+  std::string currentFileName;
+  std::string lastSavedFileName;
 
 private:
   unsigned int recordedDataSize = 0; 
@@ -35,6 +38,7 @@ public:
   void reset();
   void record(const char* fileName = "/recording.wav", unsigned long durationMs = 30000, int delayMs = 500);
   void handleRecording();
+  std::string getLastSavedFileName() { return lastSavedFileName; };
 };
 
 #endif // _AUDIO_RECORDER_H

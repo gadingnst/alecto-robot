@@ -7,6 +7,7 @@ AudioRecorder::AudioRecorder() : mic(nullptr), sd(nullptr), wavData(nullptr) {
 void AudioRecorder::setup(SDCard* sdCard, MicType micType) {
   sd = sdCard;
   mic = new Mic(micType);
+  lastSavedFileName = "";
   wavData = new char*[wavDataSize / dividedWavDataSize];
   for (int i = 0; i < wavDataSize / dividedWavDataSize; ++i) 
     wavData[i] = new char[dividedWavDataSize];
@@ -17,6 +18,8 @@ void AudioRecorder::startRecording(const char* fileName, unsigned long maxDurati
   if (isRecording) return;
 
   Serial.println("Recording started...");
+  lastSavedFileName = "";
+  currentFileName = fileName;
   createWavHeader(paddedHeader, wavDataSize);
   sd->begin();
   file = sd->openWavFile(fileName);
@@ -40,9 +43,10 @@ void AudioRecorder::stopRecording() {
   createWavHeader(paddedHeader, recordedDataSize);
   file.seek(0);
   file.write(paddedHeader, headerSize);
-  
   file.close();
   sd->end();
+  lastSavedFileName = currentFileName;
+  currentFileName = "";
   Serial.println("Recording saved to SD card.");
 }
 
