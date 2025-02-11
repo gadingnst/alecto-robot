@@ -52,19 +52,19 @@ void Robot::walkForward() {
 }
 
 void Robot::walkBackward() {
-  moveSmooth(footLeft, 90, 60, 5);    // Lift left foot
-  moveSmooth(legLeft, 90, 30, 5);     // Move left leg forward
+  moveSmooth(footRight, 90, 120, 5);  // Lift right foot
+  moveSmooth(legRight, 90, 30, 5);   // Move right leg forward
 
-  moveSmooth(footLeft, 60, 90, 5);    // Lower left foot
-  moveSmooth(legLeft, 30, 90, 5);     // Return left leg to initial position
+  moveSmooth(footRight, 120, 90, 5);  // Lower right foot
+  moveSmooth(legRight, 30, 90, 5);   // Return right leg to initial position
 
   delay(100);
 
-  moveSmooth(footRight, 90, 120, 5);  // Lift right foot
-  moveSmooth(legRight, 90, 150, 5);   // Move right leg forward
+  moveSmooth(footLeft, 90, 60, 5);    // Lift left foot
+  moveSmooth(legLeft, 90, 150, 5);     // Move left leg forward
 
-  moveSmooth(footRight, 120, 90, 5);  // Lower right foot
-  moveSmooth(legRight, 150, 90, 5);   // Return right leg to initial position
+  moveSmooth(footLeft, 60, 90, 5);    // Lower left foot
+  moveSmooth(legLeft, 150, 90, 5);     // Return left leg to initial position
 
   delay(100);
 }
