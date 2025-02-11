@@ -38,6 +38,10 @@ void AudioPlayer::play(const char* path) {
   Serial.println("Successfully connected to audio file");
 }
 
+void AudioPlayer::stop() {
+  audio.stopSong();
+}
+
 void AudioPlayer::loop() {
   audio.loop();
 }

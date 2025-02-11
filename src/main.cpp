@@ -76,11 +76,13 @@ void Task1(void *parameter) {
 void Task2(void *parameter) {
   for(;;) {
     if (touchSensor.isTouched()) {
-      recorder.record();
-      if (recorder.getLastSavedFileName() != "") {
-        Serial.println(recorder.getLastSavedFileName().c_str());
-      }
-      // player.play("/elevenlabs-sample-1.mp3");
+      // recorder.record();
+      // if (recorder.getLastSavedFileName() != "") {
+      //   Serial.println(recorder.getLastSavedFileName().c_str());
+      // }
+      player.stop();
+      delay(1000);
+      player.play("/elevenlabs-sample-1.mp3");
     }
     // recorder.handleRecording();
     vTaskDelay(pdMS_TO_TICKS(1));
@@ -90,16 +92,16 @@ void Task2(void *parameter) {
 /** servo task */
 void Task3(void *parameter) {
   for(;;) {
-    robot.walkForward();
-    if (ultrasonic.measureDistance() < 10) {
-      robot.stop();
-      delay(3000);
-      robot.walkBackward();
-      delay(500);
-      robot.turnLeft();
-      delay(1000);
-      robot.walkForward();
-    }
+    // robot.walkForward();
+    // if (ultrasonic.measureDistance() < 10) {
+    //   robot.stop();
+    //   delay(3000);
+    //   robot.walkBackward();
+    //   delay(500);
+    //   robot.turnLeft();
+    //   delay(1000);
+    //   robot.walkForward();
+    // }
     vTaskDelay(pdMS_TO_TICKS(1));
   }
 }

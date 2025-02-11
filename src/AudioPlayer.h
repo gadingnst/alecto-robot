@@ -23,6 +23,7 @@ public:
   void setup(SDCard* sdCard);
   void play(const char* path);
   void loop();
+  void stop();
   Audio getAudio() { return audio; };
 };
 
