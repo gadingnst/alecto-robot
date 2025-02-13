@@ -4,6 +4,7 @@
 #include "AudioPlayer.h"
 #include "Robot.h"
 #include "Ultrasonic.h"
+#include "Http.h"
 
 SDCard* sdCard;
 TouchSensor touchSensor;
@@ -11,11 +12,12 @@ AudioRecorder recorder;
 AudioPlayer player;
 Robot robot;
 Ultrasonic ultrasonic;
+Http http;
 
 // task declaration
-void Task1(void *parameter);
-void Task2(void *parameter);
-void Task3(void *parameter);
+void AudioPlayerTask(void *parameter);
+void AudioRecorderTask(void *parameter);
+void ServoTask(void *parameter);
 
 void setup() {
   Serial.begin(115200);
@@ -32,8 +34,8 @@ void setup() {
 
   // create task
   xTaskCreate(
-    Task1,    // task function
-    "Task1",  // task name
+    AudioPlayerTask,    // task function
+    "AudioPlayerTask",  // task name
     10000,    // stack size
     NULL,     // parameter
     1,        // priority
@@ -41,8 +43,8 @@ void setup() {
   );
 
   xTaskCreate(
-    Task2,
-    "Task2",
+    AudioRecorderTask,
+    "AudioRecorderTask",
     10000,
     NULL,
     1,
@@ -50,8 +52,8 @@ void setup() {
   );
 
   xTaskCreate(
-    Task3,
-    "Task3",
+    ServoTask,
+    "ServoTask",
     10000,
     NULL,
     1,
@@ -64,33 +66,46 @@ void loop() {
   vTaskDelay(pdMS_TO_TICKS(100)); // delay for CPU saving
 }
 
-/** playing audio task */
-void Task1(void *parameter) {
+void AudioPlayerTask(void *parameter) {
   for(;;) {
     player.loop();
     vTaskDelay(pdMS_TO_TICKS(1)); // giving chance to other task to run
   }
 }
 
-/** recording task */
-void Task2(void *parameter) {
+void AudioRecorderTask(void *parameter) {
   for(;;) {
     if (touchSensor.isTouched()) {
-      // recorder.record();
-      // if (recorder.getLastSavedFileName() != "") {
-      //   Serial.println(recorder.getLastSavedFileName().c_str());
-      // }
-      player.stop();
-      delay(1000);
-      player.play("/elevenlabs-sample-1.mp3");
+      recorder.record();
+      if (recorder.getLastSavedFileName() != "") {
+        String fileName = recorder.getLastSavedFileName().c_str();
+        Serial.println(fileName.c_str());        
+        File file = SD.open(fileName, FILE_READ);
+        if (file) {
+          size_t fileSize = file.size();
+          uint8_t* buffer = (uint8_t*)malloc(fileSize);
+          if (buffer) {
+            file.read(buffer, fileSize);
+            file.close();
+            
+            // Send the binary data and save response
+            String url = "http://192.168.207.213:3000/api/speech-to-speech/generate?key=gadingnst";
+            String outputFile = "/response.mp3";
+            if (http.postBinary(url, buffer, fileSize, outputFile, "Content-Type: audio/wav")) {
+              // Play the response audio
+              player.play(outputFile.c_str());
+            }
+            free(buffer);
+          }
+        }
+      }
     }
-    // recorder.handleRecording();
+    recorder.handleRecording();
     vTaskDelay(pdMS_TO_TICKS(1));
   }
 }
 
-/** servo task */
-void Task3(void *parameter) {
+void ServoTask(void *parameter) {
   for(;;) {
     // robot.walkForward();
     // if (ultrasonic.measureDistance() < 10) {
