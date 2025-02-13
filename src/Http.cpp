@@ -118,7 +118,8 @@ bool Http::postBinary(const String& url, File* file, const String& filePath, con
     http.end();
     return true;
   } else {
-    Serial.println("Error on sending POST: " + String(httpResponseCode));
+    Serial.print("Error on sending POST: ");
+    Serial.println(httpResponseCode);
     http.end();
     return false;
   }

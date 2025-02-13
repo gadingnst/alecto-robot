@@ -88,6 +88,7 @@ void AudioRecorderTask(void *parameter) {
           Serial.println("File opened successfully.");
           String url = "http://192.168.207.213:3000/api/speech-to-speech/generate?key=gadingnst";
           String outputFile = "/response.mp3";
+          Serial.println("Sending file to API...");
           if (http.postBinary(url, &file, outputFile, "Content-Type: audio/wav")) {
             Serial.println("File sent and response received successfully.");
             player.play(outputFile.c_str());
