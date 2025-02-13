@@ -14,6 +14,8 @@ class Http {
 public:
   Http();
   void setup(SDCard* sd);
+  bool testConnection(const String& url);
+  void testConnect();
   bool post(const String& url, const String& body, const String& headers = "");
   bool postBinary(const String& url, File* file, const String& filePath, const String& headers = "");
 

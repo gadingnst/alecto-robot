@@ -18,10 +18,43 @@ bool Http::connectToWiFi() {
   }
   if (WiFi.status() == WL_CONNECTED) {
     Serial.println("\nConnected to WiFi");
+    testConnect();
     return true;
   }
   Serial.println("\nFailed to connect to WiFi");
   return false;
+}
+
+void Http::testConnect() {
+  String baseUrl = "http://192.168.207.213:3000";
+  if (!testConnection(baseUrl)) {
+    Serial.println("Failed to connect to base URL");
+    if (!testConnection("http://google.com")) {
+      Serial.println("Also failed to connect to Google - WiFi issue");
+    } else {
+      Serial.println("Can reach Google but not your server - server issue");
+    }
+  }
+}
+
+bool Http::testConnection(const String& url) {
+  if (WiFi.status() != WL_CONNECTED) {
+    if (!connectToWiFi()) {
+      return false;
+    }
+  }
+
+  HTTPClient http;
+  if (!http.begin(url)) {
+    Serial.println("Failed to begin HTTP connection");
+    return false;
+  }
+
+  int code = http.GET();
+  Serial.println("Test connection response: " + String(code));
+  Serial.println("Response: " + http.getString());
+  http.end();
+  return code > 0;
 }
 
 bool Http::post(const String& url, const String& body, const String& headers) {
@@ -70,12 +103,16 @@ bool Http::post(const String& url, const String& body, const String& headers) {
 bool Http::postBinary(const String& url, File* file, const String& filePath, const String& headers) {
   if (WiFi.status() != WL_CONNECTED) {
     if (!connectToWiFi()) {
+      Serial.println("Failed to connect to WiFi");
       return false;
     }
   }
 
   HTTPClient http;
-  http.begin(url);
+  if (!http.begin(url)) {
+    Serial.println("Failed to begin HTTP connection");
+    return false;
+  }
   
   // Set headers if provided
   if (headers.length() > 0) {
@@ -96,11 +133,12 @@ bool Http::postBinary(const String& url, File* file, const String& filePath, con
   }
 
   size_t fileSize = file->size();
+  Serial.println("Sending file of size: " + String(fileSize) + " bytes");
+  
   int httpResponseCode = http.sendRequest("POST", file, fileSize);
   
   if (httpResponseCode > 0) {
-    // Get the response as binary data
-    WiFiClient* stream = http.getStreamPtr();
+    Serial.println("Response code: " + String(httpResponseCode));
     File responseFile = sd->getSDMMC().open(filePath, FILE_WRITE);
     if (!responseFile) {
       Serial.println("Failed to open response file for writing");
@@ -108,7 +146,7 @@ bool Http::postBinary(const String& url, File* file, const String& filePath, con
       return false;
     }
     
-    // Write the entire response to file
+    WiFiClient* stream = http.getStreamPtr();
     while (http.connected() && stream->available()) {
       responseFile.write(stream->read());
     }
@@ -118,8 +156,8 @@ bool Http::postBinary(const String& url, File* file, const String& filePath, con
     http.end();
     return true;
   } else {
-    Serial.print("Error on sending POST: ");
-    Serial.println(httpResponseCode);
+    Serial.println("Error on sending POST: " + String(httpResponseCode));
+    Serial.println("Error details: " + http.errorToString(httpResponseCode));
     http.end();
     return false;
   }
