@@ -86,7 +86,7 @@ void AudioRecorderTask(void *parameter) {
         File file = sdCard->getSDMMC().open(fileName.c_str(), FILE_READ);
         if (file) {
           Serial.println("File opened successfully.");
-          String url = "http://192.168.207.213:3000/api/speech-to-speech/generate?key=gadingnst";
+          String url = "https://alecto-ai.vercel.app/text-to-speech/api/speech-to-speech/generate?key=gadingnst";
           String outputFile = "/response.mp3";
           Serial.println("Sending file to API...");
           if (http.postBinary(url, &file, outputFile, "Content-Type: audio/wav")) {

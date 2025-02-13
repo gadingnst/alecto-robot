@@ -18,7 +18,7 @@ bool Http::connectToWiFi() {
   }
   if (WiFi.status() == WL_CONNECTED) {
     Serial.println("\nConnected to WiFi");
-    testConnect();
+    // testConnect();
     return true;
   }
   Serial.println("\nFailed to connect to WiFi");
@@ -26,7 +26,7 @@ bool Http::connectToWiFi() {
 }
 
 void Http::testConnect() {
-  String baseUrl = "http://192.168.207.213:3000";
+  String baseUrl = "https://alecto-ai.vercel.app/text-to-speech";
   if (!testConnection(baseUrl)) {
     Serial.println("Failed to connect to base URL");
     if (!testConnection("http://google.com")) {
