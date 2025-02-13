@@ -29,8 +29,9 @@ void setup() {
   robot.setup();
   recorder.setup(sdCard);
   player.setup(sdCard);
+  http.setup(sdCard);
   Serial.println("Setup complete.");
-  player.play("/elevenlabs-sample-1.mp3");
+  // player.play("/elevenlabs-sample-1.mp3");
 
   // create task
   xTaskCreate(
