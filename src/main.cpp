@@ -86,27 +86,13 @@ void AudioRecorderTask(void *parameter) {
         File file = sdCard->getSDMMC().open(fileName.c_str(), FILE_READ);
         if (file) {
           Serial.println("File opened successfully.");
-          size_t fileSize = file.size();
-          uint8_t* buffer = (uint8_t*)malloc(fileSize);
-          if (buffer) {
-            file.read(buffer, fileSize);
-            file.close();
-            
-            // Send the binary data and save response
-            Serial.println("Sending file to server...");
-            String url = "http://192.168.207.213:3000/api/speech-to-speech/generate?key=gadingnst";
-            String outputFile = "/response.mp3";
-            if (http.postBinary(url, buffer, fileSize, outputFile, "Content-Type: audio/wav")) {
-              Serial.println("File sent successfully.");
-              // Play the response audio
-              Serial.println("Playing response audio...");
-              delay(500);
-              player.play(outputFile.c_str());
-            }
-            free(buffer);
-          } else {
-            Serial.println("Failed to allocate memory for file buffer.");
+          String url = "http://192.168.207.213:3000/api/speech-to-speech/generate?key=gadingnst";
+          String outputFile = "/response.mp3";
+          if (http.postBinary(url, &file, outputFile, "Content-Type: audio/wav")) {
+            Serial.println("File sent and response received successfully.");
+            player.play(outputFile.c_str());
           }
+          file.close();
         }
       }
     }

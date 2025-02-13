@@ -67,7 +67,7 @@ bool Http::post(const String& url, const String& body, const String& headers) {
   }
 }
 
-bool Http::postBinary(const String& url, const uint8_t* data, size_t length, const String& filePath, const String& headers) {
+bool Http::postBinary(const String& url, File* file, const String& filePath, const String& headers) {
   if (WiFi.status() != WL_CONNECTED) {
     if (!connectToWiFi()) {
       return false;
@@ -95,38 +95,27 @@ bool Http::postBinary(const String& url, const uint8_t* data, size_t length, con
     }
   }
 
-  int httpResponseCode = http.POST((uint8_t*)data, length);
+  size_t fileSize = file->size();
+  int httpResponseCode = http.sendRequest("POST", file, fileSize);
+  
   if (httpResponseCode > 0) {
-    // Open file for writing
-    sd->begin();
-    File file = sd->getSDMMC().open(filePath, FILE_WRITE);
-    if (!file) {
-      Serial.println("Failed to open file for writing");
+    // Get the response as binary data
+    WiFiClient* stream = http.getStreamPtr();
+    File responseFile = sd->getSDMMC().open(filePath, FILE_WRITE);
+    if (!responseFile) {
+      Serial.println("Failed to open response file for writing");
       http.end();
       return false;
     }
-      
-    // Get the response as stream
-    WiFiClient* stream = http.getStreamPtr();
-      
-    // Read all data from server
-    while(http.connected()) {
-      // Get available data size
-      size_t size = stream->available();
-      if(size) {
-        // Read up to 128 bytes
-        uint8_t buff[128] = { 0 };
-        int c = stream->readBytes(buff, ((size > sizeof(buff)) ? sizeof(buff) : size));
-        // Write it to file
-        file.write(buff, c);
-      }
-      delay(1);
+    
+    // Write the entire response to file
+    while (http.connected() && stream->available()) {
+      responseFile.write(stream->read());
     }
     
-    file.close();
-    http.end();
-    // sd->end();
+    responseFile.close();
     Serial.println("File downloaded successfully");
+    http.end();
     return true;
   } else {
     Serial.println("Error on sending POST: " + String(httpResponseCode));

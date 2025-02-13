@@ -15,7 +15,7 @@ public:
   Http();
   void setup(SDCard* sd);
   bool post(const String& url, const String& body, const String& headers = "");
-  bool postBinary(const String& url, const uint8_t* data, size_t length, const String& filePath, const String& headers = "");
+  bool postBinary(const String& url, File* file, const String& filePath, const String& headers = "");
 
 private:
   bool connectToWiFi();
