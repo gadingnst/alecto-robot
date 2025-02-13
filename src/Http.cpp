@@ -98,6 +98,7 @@ bool Http::postBinary(const String& url, const uint8_t* data, size_t length, con
   int httpResponseCode = http.POST((uint8_t*)data, length);
   if (httpResponseCode > 0) {
     // Open file for writing
+    sd->begin();
     File file = sd->getSDMMC().open(filePath, FILE_WRITE);
     if (!file) {
       Serial.println("Failed to open file for writing");
@@ -124,7 +125,7 @@ bool Http::postBinary(const String& url, const uint8_t* data, size_t length, con
     
     file.close();
     http.end();
-    sd->end();
+    // sd->end();
     Serial.println("File downloaded successfully");
     return true;
   } else {

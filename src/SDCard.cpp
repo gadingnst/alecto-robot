@@ -21,16 +21,19 @@ bool SDCard::setup() {
     return false;
   }
   
-  _isInitialized = true;
   Serial.println("SD Card initialized");
   return true;
 }
 
 bool SDCard::begin() {
+  if (_isInitialized) return true;
+  _isInitialized = true;
   return SD_MMC.begin("/sdcard", true);
 }
 
 void SDCard::end() {
+  if (!_isInitialized) return;
+  _isInitialized = false;
   SD_MMC.end();
 }
 
@@ -141,7 +144,7 @@ bool SDCard::finalizeWavFile(File& file, uint32_t dataSize) {
   file.seek(0);
   writeWavHeader(file, dataSize);
   file.close();
-  end();
+  // end();
   Serial.println("WAV file finalized successfully");
   return true;
 }

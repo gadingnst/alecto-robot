@@ -44,7 +44,7 @@ void AudioRecorder::stopRecording() {
   file.seek(0);
   file.write(paddedHeader, headerSize);
   file.close();
-  sd->end();
+  // sd->end();
   lastSavedFileName = currentFileName;
   currentFileName = "";
   Serial.println("Recording saved to SD card.");
